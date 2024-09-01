@@ -15,13 +15,13 @@ logger = logging.getLogger(__name__)
 
 
 if __name__ == "__main__": 
-    MANAGE_VECTOR_DB_PAGE = "Create / Update VectorDB"
+    MANAGE_VECTOR_DB_PAGE = "Create VectorDB"
+    GENERATE_SEGMENTS = "Generate Segments"
     MATCH_PAGE = "Match Audios"
-    INFERENCE_PAGE = "File Inference"
     SUPPORTED_EXTENSIONS = ["mp3", "wav"]
 
     page = st.sidebar.radio(
-        "Select a page", [MANAGE_VECTOR_DB_PAGE, INFERENCE_PAGE, MATCH_PAGE]
+        "Select a page", [MANAGE_VECTOR_DB_PAGE, GENERATE_SEGMENTS, MATCH_PAGE]
     )
 
     config = load_config()
@@ -58,7 +58,7 @@ if __name__ == "__main__":
         if st.button("Create VectorDB"):
             build_vector_db(audios_dir_for_db, db_dir, db_config_path, extensions=SUPPORTED_EXTENSIONS)
 
-    elif page == INFERENCE_PAGE:
+    elif page == GENERATE_SEGMENTS:
         st.title("Generate Segments Meta")
         sample_file_or_dir = st.text_input("File/Directory path", value="")
         class_map_path = st.text_input("Label map path", value=class_map_path)
