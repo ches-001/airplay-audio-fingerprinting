@@ -153,7 +153,7 @@ def build_vector_db(audios_dir_for_db: str, dir_for_db: str, configs: str, exten
     
     with open(os.path.join(dir_for_db, 'songList.txt'), 'w') as f:
         for i in file_list:
-            f.write(f"file_list\n")
+            f.write(f"{i}\n")
     f.close()
     
     # write settings

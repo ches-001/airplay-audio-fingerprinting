@@ -10,6 +10,7 @@ import torch
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 import torch.multiprocessing as mp
+import streamlit as st
 import torchvision
 import tqdm
 
@@ -75,7 +76,16 @@ def match_samples(segments_file: str, dir_for_db: str, result_file: str):
     fout_score = open(result_file_score, 'wb')
     detail_writer = csv.writer(fout)
     detail_writer.writerow(['queryfile', 'start', 'end', 'answer', 'score', 'time', 'part_scores'])
-    for dat in tqdm.tqdm(loader):
+
+    progress_bar = st.progress(0.0)
+    progress = 0.0
+    status = st.empty()
+    status.text(f"Progress: {progress}%")
+    for i, dat in enumerate(tqdm.tqdm(loader)):
+        progress = (i + 1) / len(loader.dataset)
+        progress_bar.progress(progress)
+        status.text(f"Progress: {progress*100 :.2f}%")
+
         embeddings = []
         grads = []
         specs = []

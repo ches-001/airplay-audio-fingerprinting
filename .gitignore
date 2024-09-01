@@ -8,7 +8,8 @@ saved_model
 **/__pycache__
 kaggle.json
 notebook.ipynb
-idx2class_mapping
+final_results
+vector_db
 # cache files
 __pycache__
 caches

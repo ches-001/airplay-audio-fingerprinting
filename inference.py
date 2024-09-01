@@ -271,24 +271,7 @@ def main(
         num_concurrency: int=10,
         combine_results: bool=False
     ):
-    if not model_path:
-        block_config = "_".join(map(lambda i : str(i), config["block_layers"]))
-        if config["backbone"] == "custom":
-            model_path = os.path.join(
-                config["train_config"]["model_path"], 
-                "ivy-openbmat", 
-                f"{config['backbone']}_{block_config}",
-                f"{AudioDetectionNetwork.__name__}.pth.tar"
-            )
-        elif config['backbone'] == "resnet":
-            model_path = os.path.join(
-                config["train_config"]["model_path"], 
-                "ivy-openbmat", 
-                f"{config['backbone']}_{config['resnet_config']['block']}_{block_config}",
-                f"{AudioDetectionNetwork.__name__}.pth.tar"
-            )
-
-    device = config["device"] if torch.cuda.is_available() else "cpu"
+    device = config["train_config"]["device"] if torch.cuda.is_available() else "cpu"
     if not os.path.isfile(class_map_path):
         raise FileNotFoundError(f"{class_map_path} file does not exist in {class_map_path}")
     idx2class_map = get_label_map(class_map_path)

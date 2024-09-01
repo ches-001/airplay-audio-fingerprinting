@@ -26,19 +26,17 @@ if __name__ == "__main__":
 
     config = load_config()
     batch_size = config["train_config"]["batch_size"]
-    class_map_path = os.path.join(config["train_config"]["class_map_path"], "ivy-openbmat", "class_map.json")
+    class_map_path = os.path.join(config["train_config"]["class_map_path"], "class_map.json")
     block_config = "_".join(map(lambda i : str(i), config["block_layers"]))
     if config["backbone"] == "custom":
         model_path = os.path.join(
             config["train_config"]["model_path"], 
-            "ivy-openbmat",
             f"{config['backbone']}_{block_config}",
             f"{AudioDetectionNetwork.__name__}.pth.tar"
         )
     elif config['backbone'] == "resnet":
         model_path = os.path.join(
             config["train_config"]["model_path"], 
-            "ivy-openbmat", 
             f"{config['backbone']}_{config['resnet_config']['block']}_{block_config}",
             f"{AudioDetectionNetwork.__name__}.pth.tar"
         )
@@ -92,11 +90,11 @@ if __name__ == "__main__":
                 st.code("".join(path_or_paths[0].split(os.sep)[:-1]))
 
     elif page == MATCH_PAGE:
+        st.title("Match Generated Segments")
         segments_file = st.text_input("Segemnts CSV File", value="")
         db_dir = st.text_input("VectorDB directory", value=db_dir)
 
         if st.button("Match Segments"):
-            # result_file = "".join(segments_file.split(".")[:-1]) + "_pfnn_results.csv"
             result_file = segments_file.replace("seg_results", "pfnn_results")
             match_samples(segments_file, db_dir, result_file)
             st.code(result_file)

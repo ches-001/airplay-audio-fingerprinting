@@ -117,6 +117,7 @@ class MusicDataset2(torch.utils.data.Dataset):
         self.hop_size = int(self.sample_rate * self.params['hop_size'])
         self.frame_shift_mul = self.params['indexer'].get('frame_shift_mul', 1)
         self.segments = pd.read_csv(segments_csv)
+        self.segments = self.segments[self.segments["class"] == "music"]
 
     
     def get_seconds(self, time_str):
