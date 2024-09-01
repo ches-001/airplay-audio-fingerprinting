@@ -1,0 +1,98 @@
+anchors:
+  lg:
+  - 43.19310559006211
+  - 50.99557251908398
+  - 59.81746359223327
+  md:
+  - 19.551036269430053
+  - 27.203208722741433
+  - 35.17562231759656
+  sm:
+  - 2.650371318822014
+  - 7.44449691991786
+  - 12.867792792792798
+
+backbone: resnet
+block_layers: [2, 2, 2, 2]
+resnet_config:
+  block: BasicBlock
+dropout: 0.4
+
+melspectrogram_config:
+  center: false
+  hop_length: 1000
+  mel_scale: htk
+  n_fft: 1000
+  n_mels: 32
+  norm: slaney
+  pad_mode: reflect
+  power: 2
+  win_length: null
+
+mfcc_config:
+  melkwargs:
+    center: false
+    hop_length: 1000
+    mel_scale: htk
+    n_fft: 1000
+    n_mels: 32
+    norm: slaney
+    pad_mode: reflect
+    power: 2
+    win_length: null
+  n_mfcc: 32
+
+num_anchors: 3
+train_anchors: true
+sample_duration: 60
+sample_rate: 22050
+new_sample_rate: 16000
+scale_input: true
+taper_input: false
+taper_window: hann
+audio_extension: wav
+
+train_config:
+  dataset_path: dataset/*
+  class_map_path: "idx2class_mapping"
+  annotator: annotator_a
+  batch_size: 32
+  device: cuda
+  epochs: 200
+
+  loss_config:
+    anchor_t: 5
+    batch_scale_loss: false
+    box_w: 0.1
+    class_w: 0.3
+    conf_w: 1.0
+    edge_t: 0.5
+    alpha: null
+    gamma: null
+    label_smoothing: 0.08
+    multi_label: true
+
+  optimizer_config:
+    betas: [0.9, 0.999]
+    eps: 1.0e-08
+    lr: 0.001
+    name: Adam
+    weight_decay: 0.002
+
+  lr_scheduler_config:
+    T_0: 200
+    T_mult: 1
+    eta_min: 1.0e-06
+    name: CosineAnnealingWarmRestarts
+
+  ema_config:
+    N: 2000
+    momentum: 0.002
+    num_updates: 0
+
+  use_ema: false
+  verbose: true
+  shuffle_samples: true
+  use_lr_scheduler: true
+  metrics_path: metrics
+  model_path: saved_model
